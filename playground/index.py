@@ -29,7 +29,7 @@ class Example2(Slide):
         self.play(GrowFromCenter(VGroup(axes, graph)))
         self.pause()
 
-        f_x = MathTex('y = x^3').move_to([2, -1, 0])
+        f_x = MathTex('y = x^2').move_to([2, -1, 0])
 
         self.play(Write(f_x))
 
