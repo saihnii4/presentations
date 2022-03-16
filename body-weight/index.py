@@ -1,11 +1,7 @@
 # Биеийн жингээ хянах, зохицуулах аргууд
 
-from calendar import c
-from curses import COLOR_YELLOW
-import math
-import pathlib
-from tkinter import Image
 from manim import *
+from manim_presentation import Slide
 
 
 class ModifiedText(Text):
@@ -14,7 +10,7 @@ class ModifiedText(Text):
         # self.set_color(BLACK)
 
 
-class Introduction(Scene):
+class Introduction(Slide):
     def construct(self):
         self.authors = ["Дөлгөөн", "Мишээл", "Бөртэ", "Бишрэл"]
         # self.camera.background_color = WHITE
@@ -47,13 +43,14 @@ class Introduction(Scene):
             np.array((4.75, 0, 0))).align_to(text, RIGHT)
         self.play(Write(text, run_time=2))
         self.play(FadeIn(image))
+        self.pause()
+
+        self.play(Write(credits.submobjects[0], run_time=5))
         self.wait(1)
-
-        self.play(Write(credits, run_time=5))
-        self.wait(2)
+        self.play(*[Write(obj) for obj in credits.submobjects[1:]], run_time=5)
 
 
-class BMI(Scene):
+class BMI(Slide):
     def construct(self):
         definition_scene = VGroup()
 
@@ -71,23 +68,26 @@ class BMI(Scene):
         definition_scene.shift(LEFT/2)
 
         self.play(Write(text))
-        self.wait(2)
+        self.pause()
 
         self.play(Write(explanation, run_time=10))
-        self.wait(2)
+        self.pause()
 
         self.play(FadeOut(definition_scene))
-        self.wait(2)
+        self.pause()
 
         formula_scene = VGroup()
 
-        bmi_formula = MathTex("BMI = \frac{m}{h^2}")
+        bmi_formula = MathTex("""BMI = \\frac{m}{h^2}""")
         header = ModifiedText("BMI-ийн томьёо юу вэ?", color=YELLOW)
 
         formula_scene.add(bmi_formula, header)
 
         self.play(Write(header))
-        self.play(Write(formula_scene))
+        self.pause()
+
+        self.play(header.animate.shift(UP*2), Write(bmi_formula))
+        self.pause()
 
 
 class MeasuringHeight(Scene):
