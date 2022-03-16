@@ -21,28 +21,32 @@ class Example2(Slide):
         self.f_prime_x = lambda x: 2*x
 
     def construct(self):
-        axes = Axes([-10.0, 10.0, 2], [-10.0, 10.0, 2], tips=False,
-                    axis_config={"include_numbers": True})
+        axes = Axes([-5.0, 5.0, 1], [-3.0, 3.0, 1], x_length=15, tips=False,
+                    axis_config={"include_numbers": True}).add_coordinates()
 
         graph = axes.plot(self.f_x, color=BLUE)
 
-        self.play(GrowFromCenter(VGroup(axes, graph)))
+        plane = NumberPlane()
+
+        self.play(FadeIn(VGroup(axes, graph, plane)))
         self.pause()
 
         f_x = MathTex('y = x^2').move_to([2, -1, 0])
-
         self.play(Write(f_x))
 
         # Some basic Calculus
-
         m = axes.slope_of_tangent(self.x, graph)
         y = self.f_x(self.x)
 
         c = y - (m*self.x)
-        print(c)
 
         tangent_line = axes.plot(lambda x: 2*x-1, color=RED)
         self.play(GrowFromCenter(tangent_line))
+        self.pause()
+
+        lines = axes.get_lines_to_point(axes.c2p(1, 1))
+
+        self.play(Write(lines))
         self.pause()
 
         tangent_intersection = Dot(axes.coords_to_point(1, 1), color=ORANGE)
@@ -51,7 +55,7 @@ class Example2(Slide):
         self.play(FadeIn(tangent_intersection))
         self.play(Write(label))
 
-        self.wait()
+        self.pause()
 
 
 class Example3(Slide):
